@@ -17,3 +17,6 @@ exact filenames so the Markdown links resolve:
 
 Tip on Windows: use **Win + Shift + S** to snip the terminal, then paste into an
 image editor and save as PNG here.
+
+For step-by-step capture instructions (exact commands, cropping tips, and
+per-OS shortcuts), see [`../docs/screenshot-guide.md`](../docs/screenshot-guide.md).

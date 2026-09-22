@@ -1,5 +1,8 @@
 # The Complete Helm Guide (for Beginners)
 
+[![Helm CI](https://github.com/dindo-manondo/helm-guide/actions/workflows/helm-ci.yml/badge.svg)](https://github.com/dindo-manondo/helm-guide/actions/workflows/helm-ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A hands-on, detailed guide to **Helm** — the package manager for Kubernetes. This
 repo is written for someone who is still learning, so it explains the *why* behind
 each concept, not just the commands.
@@ -34,7 +37,10 @@ Supporting files in this repo:
 - [`docs/command-reference.md`](docs/command-reference.md) — every Helm command with flags and examples
 - [`docs/templating-cheatsheet.md`](docs/templating-cheatsheet.md) — Go template + Sprig functions
 - [`docs/troubleshooting.md`](docs/troubleshooting.md) — common errors and fixes
+- [`docs/walkthrough.md`](docs/walkthrough.md) — hands-on 8-step walkthrough
+- [`docs/screenshot-guide.md`](docs/screenshot-guide.md) — how to capture the screenshots
 - [`examples/mychart/`](examples/mychart/) — a complete, working example chart you can install
+- [`.github/workflows/helm-ci.yml`](.github/workflows/helm-ci.yml) — CI that lints and renders the chart on every push
 
 ---
 

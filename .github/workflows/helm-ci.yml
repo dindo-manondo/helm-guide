@@ -1,0 +1,42 @@
+name: Helm CI
+
+# Validates the example chart on every push and pull request to main.
+# It lints the chart and renders the templates with both the default values
+# and the production values, so any templating regression fails the build.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  lint-and-template:
+    name: Lint and render example chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.16.2
+
+      - name: Show Helm version
+        run: helm version
+
+      - name: Lint the chart (strict)
+        run: helm lint ./examples/mychart --strict
+
+      - name: Render templates with default values
+        run: helm template demo ./examples/mychart
+
+      - name: Render templates with production values
+        run: helm template demo ./examples/mychart -f ./examples/mychart/values-prod.yaml
+
+      - name: Validate rendered manifests are parseable YAML
+        run: |
+          helm template demo ./examples/mychart -f ./examples/mychart/values-prod.yaml > /tmp/rendered.yaml
+          python3 -c "import sys, yaml; list(yaml.safe_load_all(open('/tmp/rendered.yaml'))); print('Rendered manifests are valid YAML')"
