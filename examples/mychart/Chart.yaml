@@ -1,0 +1,16 @@
+apiVersion: v2
+name: mychart
+description: A complete, commented example Helm chart used by the helm-guide repo
+# type can be "application" (the default) or "library" (reusable helpers only)
+type: application
+# version is the CHART version. Bump this whenever you change the chart.
+version: 0.1.0
+# appVersion is the version of the APPLICATION this chart deploys. Quote it.
+appVersion: "1.27.2"
+
+# Uncomment to declare dependencies (subcharts):
+# dependencies:
+#   - name: postgresql
+#     version: "15.5.x"
+#     repository: "https://charts.bitnami.com/bitnami"
+#     condition: postgresql.enabled

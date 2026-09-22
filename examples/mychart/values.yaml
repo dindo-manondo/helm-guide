@@ -1,0 +1,60 @@
+# Default values for mychart.
+# These are the values used unless overridden with -f or --set.
+
+# Number of pod replicas to run.
+replicaCount: 1
+
+image:
+  # Container image repository.
+  repository: nginx
+  # Image pull policy: IfNotPresent, Always, or Never.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag. Defaults to Chart.appVersion when empty.
+  tag: ""
+
+# Override the generated names if you want.
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Whether to create a ServiceAccount.
+  create: true
+  # Name to use. Generated if empty and create is true.
+  name: ""
+
+service:
+  # ClusterIP, NodePort, or LoadBalancer.
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Resource requests/limits. Left empty by default; set in production.
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# Environment variables injected into the container.
+env: []
+  # - name: LOG_LEVEL
+  #   value: "info"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+# Extra labels applied to all resources.
+commonLabels: {}

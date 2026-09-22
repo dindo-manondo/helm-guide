@@ -1,0 +1,12 @@
+# Packaged charts
+*.tgz
+
+# Helm dependency downloads
+charts/*.tgz
+**/charts/*.tgz
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
