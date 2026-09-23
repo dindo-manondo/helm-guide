@@ -1,8 +1,8 @@
 # Screenshot Capture Guide
 
-This guide walks you through capturing every screenshot the guide references.
-Since screenshots can't be auto-generated, you produce them once by running the
-commands below and snipping the terminal. Save each image in the
+The repo already ships a full set of screenshots. Use this guide when you want
+to refresh them, for example after upgrading Helm. Run the commands below, snip
+the terminal, and save each image in the
 [`../screenshots/`](../screenshots/) folder with the **exact filename** shown so
 the Markdown links in [`walkthrough.md`](walkthrough.md) resolve.
 
@@ -96,35 +96,38 @@ Capture: the first rendered manifest (ServiceAccount/Service/Deployment).
 ---
 
 ### `screenshots/07-upgrade-rollback.png`
+Run from the repo root (uses the example chart, so no Docker Hub pulls):
 ```bash
+helm install demo ./examples/mychart   # once, before clearing
 clear
-helm upgrade my-web bitnami/nginx --set replicaCount=3
-helm history my-web
-helm rollback my-web 1
-helm history my-web
+helm upgrade demo ./examples/mychart --set replicaCount=3
+helm history demo
+helm rollback demo 1
+helm history demo
 ```
 Capture: the upgrade confirmation, the history table showing multiple revisions,
 and the rollback confirmation.
 
 ---
 
+### `screenshots/08-lint-get-values.png`
+```bash
+clear
+helm lint ./examples/mychart --strict
+helm get values demo --all
+```
+Capture: the lint summary and the top of the computed values.
+
+---
+
 ## After capturing
 
-1. Confirm all seven PNGs are in `screenshots/` with the exact names above.
+1. Confirm all eight PNGs are in `screenshots/` with the exact names above.
 2. Open [`walkthrough.md`](walkthrough.md) locally or on GitHub. The images
    should now render inline instead of showing as broken links.
 3. Commit them:
    ```bash
    git add screenshots/*.png
-   git commit -m "Add walkthrough screenshots"
+   git commit -m "Refresh walkthrough screenshots"
    git push
    ```
-
-## Optional: embed screenshots in the main README
-
-The screenshots are wired into `walkthrough.md`. If you also want them in the
-main `README.md`, add lines like:
-```markdown
-![helm version](screenshots/01-helm-version.png)
-```
-right under the relevant section.

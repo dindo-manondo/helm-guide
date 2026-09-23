@@ -66,6 +66,35 @@ helm repo add <name> <url>
 helm repo update
 ```
 
+### `unexpected status from HEAD request to https://registry-1.docker.io/... 429 Too Many Requests`
+Bitnami charts are now pulled from Docker Hub as OCI artifacts, and anonymous
+pulls are rate-limited. You'll hit this on shared IPs (office NAT, CI runners)
+after a handful of installs or upgrades.
+```bash
+# Log in so pulls count against your account instead of the shared IP
+helm registry login registry-1.docker.io -u <dockerhub-user>
+
+# Or pull once, then install/upgrade from the local .tgz
+helm pull bitnami/nginx --version <x.y.z>
+helm upgrade --install my-web ./nginx-<x.y.z>.tgz
+```
+In CI, mirror the charts you depend on into your own registry (ECR, Nexus,
+Harbor) and install from there.
+
+### Bitnami catalog changes (August 2025)
+Since 28 August 2025 Bitnami only publishes a limited set of free images and
+charts, and install output shows a warning about it. Older image tags moved to
+the `bitnamilegacy` Docker Hub org and don't get updates. What this means for you:
+
+- Fine for learning and this walkthrough.
+- For real workloads, pin chart and image versions, mirror them into your own
+  registry, and read the chart's release notes for image changes before upgrading.
+- If a pod can't pull its image after an upgrade, check which image it's asking
+  for with `kubectl describe pod <pod>` and override `image.repository` /
+  `image.tag` in your values.
+- Consider the app's own upstream or vendor chart instead (for example the
+  CloudNativePG chart for PostgreSQL).
+
 ### Values not taking effect
 Check precedence: `--set` beats `-f`, which beats `values.yaml`. Confirm what's
 actually in use:

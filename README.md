@@ -30,15 +30,15 @@ each concept, not just the commands.
 14. [Hooks and chart tests](#14-hooks-and-chart-tests)
 15. [Best practices](#15-best-practices)
 16. [Troubleshooting](#16-troubleshooting)
-17. [Where the screenshots go](#17-where-the-screenshots-go)
+17. [Screenshots](#17-screenshots)
 
 Supporting files in this repo:
 
 - [`docs/command-reference.md`](docs/command-reference.md) — every Helm command with flags and examples
 - [`docs/templating-cheatsheet.md`](docs/templating-cheatsheet.md) — Go template + Sprig functions
 - [`docs/troubleshooting.md`](docs/troubleshooting.md) — common errors and fixes
-- [`docs/walkthrough.md`](docs/walkthrough.md) — hands-on 8-step walkthrough
-- [`docs/screenshot-guide.md`](docs/screenshot-guide.md) — how to capture the screenshots
+- [`docs/walkthrough.md`](docs/walkthrough.md) — hands-on 9-step walkthrough with screenshots
+- [`docs/screenshot-guide.md`](docs/screenshot-guide.md) — how to re-capture the screenshots
 - [`examples/mychart/`](examples/mychart/) — a complete, working example chart you can install
 - [`.github/workflows/helm-ci.yml`](.github/workflows/helm-ci.yml) — CI that lints and renders the chart on every push
 
@@ -113,10 +113,7 @@ Verify:
 ```bash
 helm version
 ```
-Expected output (yours will vary):
-```
-version.BuildInfo{Version:"v3.16.2", GitCommit:"...", GitTreeState:"clean", GoVersion:"go1.22.7"}
-```
+![helm version output](screenshots/01-helm-version.png)
 
 > Helm talks to your cluster using the same `kubeconfig` that `kubectl` uses. If
 > `kubectl get nodes` works, Helm will work too.
@@ -147,11 +144,14 @@ helm status my-web
 helm uninstall my-web
 ```
 
-Example `helm list` output:
-```
-NAME    NAMESPACE  REVISION  UPDATED                  STATUS    CHART         APP VERSION
-my-web  default    1         2026-09-22 10:15:00 ...  deployed  nginx-18.2.1  1.27.2
-```
+Example `helm list` and `helm status` output:
+
+![helm list and status](screenshots/04-list-status.png)
+
+> **Heads-up on Bitnami:** since August 2025 only a limited set of Bitnami images
+> and charts are free, and the install output shows a warning about it. It's fine
+> for learning. For real workloads see
+> [Bitnami catalog changes](docs/troubleshooting.md#bitnami-catalog-changes-august-2025).
 
 ---
 
@@ -322,13 +322,10 @@ helm rollback demo 1
 helm uninstall demo --keep-history
 ```
 
-Example `helm history` output:
-```
-REVISION  UPDATED                   STATUS      CHART          APP VERSION  DESCRIPTION
-1         Mon Sep 22 10:00:00 2026  superseded  mychart-0.1.0  1.16.0       Install complete
-2         Mon Sep 22 10:20:00 2026  superseded  mychart-0.1.0  1.16.0       Upgrade complete
-3         Mon Sep 22 10:35:00 2026  deployed    mychart-0.2.0  1.17.0       Upgrade complete
-```
+Upgrade, history, and rollback in action (a rollback adds a new revision
+rather than deleting history):
+
+![upgrade and rollback](screenshots/07-upgrade-rollback.png)
 
 ---
 
@@ -449,24 +446,22 @@ helm history <release>               # what changed and when?
 
 ---
 
-## 17. Where the screenshots go
+## 17. Screenshots
 
-I can't generate real screenshot images, so this repo uses a `screenshots/`
-folder with placeholders. To complete the visual parts of the guide, capture
-these yourself and drop them in `screenshots/` with the filenames referenced below.
+Every screenshot is real output from Helm v3.16.2 against a local test cluster,
+and they're embedded in [`docs/walkthrough.md`](docs/walkthrough.md). Your
+timestamps and chart versions will differ.
 
-| Placeholder | What to capture |
-|-------------|-----------------|
-| `screenshots/01-helm-version.png` | Output of `helm version` |
-| `screenshots/02-repo-add.png` | `helm repo add` + `helm repo update` |
-| `screenshots/03-install.png` | `helm install my-web bitnami/nginx` |
-| `screenshots/04-list-status.png` | `helm list` and `helm status` |
-| `screenshots/05-create-chart.png` | `helm create mychart` + the tree |
-| `screenshots/06-template-render.png` | `helm template mychart` output |
-| `screenshots/07-upgrade-rollback.png` | `helm upgrade`, `helm history`, `helm rollback` |
+| Screenshot | Shows |
+|------------|-------|
+| [`01-helm-version.png`](screenshots/01-helm-version.png) | `helm version` |
+| [`02-repo-add.png`](screenshots/02-repo-add.png) | `helm repo add` + `helm repo update` |
+| [`03-install.png`](screenshots/03-install.png) | `helm install my-web bitnami/nginx` |
+| [`04-list-status.png`](screenshots/04-list-status.png) | `helm list` and `helm status` |
+| [`05-create-chart.png`](screenshots/05-create-chart.png) | `helm create mychart` + the tree |
+| [`06-template-render.png`](screenshots/06-template-render.png) | `helm template mychart` output |
+| [`07-upgrade-rollback.png`](screenshots/07-upgrade-rollback.png) | `helm upgrade`, `helm history`, `helm rollback` |
+| [`08-lint-get-values.png`](screenshots/08-lint-get-values.png) | `helm lint --strict` and `helm get values --all` |
 
-Example of how a screenshot is referenced in Markdown (already wired up in
-[`docs/walkthrough.md`](docs/walkthrough.md)):
-```markdown
-![helm version output](screenshots/01-helm-version.png)
-```
+To refresh them after a Helm upgrade, follow
+[`docs/screenshot-guide.md`](docs/screenshot-guide.md).
